@@ -5,25 +5,18 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-nTops = 3
-nBottoms = 3
-nShoes = 3
+nTops = 4
+nBottoms = 4
+nShoes = 4
 
 df = pd.DataFrame({'top': [], 'bottom': [], 'shoes': [], 'result': []})
 print(df.describe())
 
-for j in range(100):
-    top = random.randint(1, nTops)
-    bottom = random.randint(1, nBottoms)
-    shoes = random.randint(1, nShoes)
-
-    result = 0
-
-    # if ((top + bottom + shoes) % 2 == 0):
-    #     result = 1
-
-    new_row = pd.DataFrame({'top' : [top], 'bottom' : [bottom], 'shoes' : [shoes], 'result' : [result]})
-    df = pd.concat([df, new_row])
+for i in range(1, 5):
+    for j in range(1, 5):
+        for k in range(1, 5):
+            new_row = pd.DataFrame({'top': [i], 'bottom': [j], 'shoes': [k], 'result': [-1]})
+            df = pd.concat([df, new_row])
 
 print(df.describe())
 df = df.fillna(0)

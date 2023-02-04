@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         self.label_image_shoes.setAlignment(Qt.AlignCenter)
 
         # setup buttons
-        self.nope_button.clicked.connect(lambda : self.feedback(False))
+        self.nope_button.clicked.connect(lambda: self.feedback(False))
         self.nope_button.setText("Nope")
         self.yes_button.clicked.connect(lambda: self.feedback(True))
         self.yes_button.setText("Yeet")
@@ -71,16 +71,16 @@ class Ui_MainWindow(object):
     def feedback(self, result):
         if result:
             self.data["result"].iloc[self.index] = 1
-            print(f"J'aime ! "
-                  f"\n top_index : {self.image_top_index},"
-                  f"\n bottom_index : {self.image_bottom_index},"
-                  f"\n top_index : {self.image_shoes_index} ")
+            # print(f"J'aime ! "
+            #       f"\n top_index : {self.image_top_index},"
+            #       f"\n bottom_index : {self.image_bottom_index},"
+            #       f"\n top_index : {self.image_shoes_index} ")
         else:
             self.data["result"].iloc[self.index] = 0
-            print(f"Je n'aime pas !"
-                  f"\n top_index : {self.image_top_index},"
-                  f"\n bottom_index : {self.image_bottom_index},"
-                  f"\n top_index : {self.image_shoes_index} ")
+            # print(f"Je n'aime pas !"
+            #       f"\n top_index : {self.image_top_index},"
+            #       f"\n bottom_index : {self.image_bottom_index},"
+            #       f"\n top_index : {self.image_shoes_index} ")
 
 
         self.getImages()
@@ -104,7 +104,13 @@ class Ui_MainWindow(object):
             self.pixmap3.scaled(IMAGE_SIZE, IMAGE_SIZE, Qt.KeepAspectRatio, Qt.FastTransformation))
 
     def getImages(self):
-        self.index = random.randint(0, 99)
+
+
+        masked_df = self.data[self.data['result'] == -1]
+        end = masked_df['result'].count()
+
+        self.index = random.randint(0, end)
+
         self.images_indexes = self.data.iloc[self.index]
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
@@ -112,8 +118,7 @@ class Ui_MainWindow(object):
         self.loadImages(self.image_top_index, self.image_bottom_index, self.image_shoes_index)
 
     def save(self):
-        print('updates done to csv at line : ', self.index)
-        self.data.to_csv('out.csv')
+        self.data.to_csv('out.csv', index=False)
 
 if __name__ == "__main__":
     import sys
