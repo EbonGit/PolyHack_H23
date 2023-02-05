@@ -7,7 +7,6 @@ import pandas as pd
 import generate_data
 import random
 import model_keras
-import time
 
 IMAGE_SIZE = 170
 
@@ -31,7 +30,7 @@ class TrainingWindow(QWidget):
         self.yes_button = QPushButton(self)
         self.done_button = QPushButton(self)
 
-        self.index = 63
+        self.index = -1
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]

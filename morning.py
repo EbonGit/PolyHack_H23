@@ -13,7 +13,6 @@ IMAGE_SIZE = 170
 class MorningWindow(QWidget):
 
     def __init__(self):
-        generate_data.init()
         super().__init__()
         self.data = pd.read_csv("out.csv")
 
@@ -25,8 +24,8 @@ class MorningWindow(QWidget):
         self.label_image_bottom = QLabel(self)
         self.label_image_shoes = QLabel(self)
 
-        self.nope_button = QPushButton(self)
-        self.yes_button = QPushButton(self)
+        # self.nope_button = QPushButton(self)
+        # self.yes_button = QPushButton(self)
         self.close_button = QPushButton(self)
 
         self.index = -1
@@ -56,21 +55,21 @@ class MorningWindow(QWidget):
         self.label_image_shoes.setAlignment(Qt.AlignCenter)
 
         # setup buttons
-        self.nope_button.clicked.connect(lambda: self.feedback(False))
-        self.nope_button.setText("Nope")
-        self.yes_button.clicked.connect(lambda: self.feedback(True))
-        self.yes_button.setText("Yeet")
-        #self.close_button.clicked.connect(self.save)
-        self.close_button.setText("Done")
+        # self.nope_button.clicked.connect(lambda: self.feedback(False))
+        # self.nope_button.setText("Nope")
+        # self.yes_button.clicked.connect(lambda: self.feedback(True))
+        # self.yes_button.setText("Yeet")
+        self.close_button.clicked.connect(self.save)
+        self.close_button.setText("Refresh")
 
         # add to layouts
         self.verticalLayout.addWidget(self.label_image_top)
         self.verticalLayout.addWidget(self.label_image_bottom)
         self.verticalLayout.addWidget(self.label_image_shoes)
         self.verticalLayout.addWidget(self.close_button)
-        self.horizontalLayout.addWidget(self.nope_button)
+        # self.horizontalLayout.addWidget(self.nope_button)
         self.horizontalLayout.addLayout(self.verticalLayout)
-        self.horizontalLayout.addWidget(self.yes_button)
+        # self.horizontalLayout.addWidget(self.yes_button)
     def feedback(self, result):
         if result:
             self.data["result"].iloc[self.index] = 1
@@ -130,8 +129,6 @@ class MorningWindow(QWidget):
                 self.images_indexes["result"] = 1
             else:
                 self.check = 0
-                self.images_indexes["result"] = 0
-
        
         self.loadImages(
             self.images_indexes["top"],
@@ -142,7 +139,14 @@ class MorningWindow(QWidget):
 
 
     def save(self):
+        print(self.data.tail())
+        self.images_indexes["result"] = 0
+        new_row = pd.DataFrame(
+            {'top': self.top, 'bottom': self.bottom, 'shoes': self.shoes,
+             'result': [0]})
+        self.data = pd.concat([self.data, new_row])
         self.data.to_csv('out.csv', index=False)
+        self.getImages()
     
     # lire le csv ligne par ligne avec panda et l'envoyer a une fonction qui return 1 ou 0 pour chaque ligne et qui enregistre le resultat dans le csv
 

@@ -1,16 +1,6 @@
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-
-
-import random
-
 np.set_printoptions(precision=3, suppress=True)
-
-import tensorflow as tf
-
 from tensorflow import keras
-from tensorflow.keras import layers
 
 
 model = keras.models.load_model('model')

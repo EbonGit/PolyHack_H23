@@ -17,7 +17,7 @@ def init():
     for i in range(1, 5):
         for j in range(1, 5):
             for k in range(1, 5):
-                new_row = pd.DataFrame({'top': [i], 'bottom': [j], 'shoes': [k], 'result': [1]})
+                new_row = pd.DataFrame({'top': [i], 'bottom': [j], 'shoes': [k], 'result': [-1]})
                 df = pd.concat([df, new_row])
 
     print(df.describe())
@@ -25,3 +25,6 @@ def init():
     df = df.astype(int)
     df = df.sample(frac=1).reset_index(drop=True)
     df.to_csv("out.csv", index=False)
+
+if __name__ == "__main__":
+    init()

@@ -4,7 +4,6 @@ from PyQt5.QtCore import Qt
 import sys
 import Training
 import morning
-import predict
 
 
 class MenuWindow(QMainWindow):
