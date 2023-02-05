@@ -14,7 +14,7 @@ IMAGE_SIZE = 170
 class TrainingWindow(QWidget):
 
     def __init__(self):
-        generate_data.init()
+        #generate_data.init()
         super().__init__()
         self.data = pd.read_csv("out.csv")
 
