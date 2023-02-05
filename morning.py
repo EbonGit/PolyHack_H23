@@ -5,6 +5,7 @@ from PyQt5.QtGui import QPixmap
 import pandas as pd
 import generate_data
 import random
+import predict
 
 IMAGE_SIZE = 170
 
@@ -112,11 +113,7 @@ class MorningWindow(QWidget):
         #         return 1
         #     else:
         #         return 0
-        def predict_model(top, bottom, shoes):
-            if top ==  bottom == shoes:
-                return 1
-            else:
-                return 0
+
         
         # self.data['result'] = self.data.apply(process_row, axis=1)
         # self.data.to_csv("in.csv", index=False)
@@ -125,7 +122,7 @@ class MorningWindow(QWidget):
             self.top = random.randint(1, 4)
             self.bottom = random.randint(1,4)
             self.shoes = random.randint(1,4)
-            if predict_model(self.top, self.bottom, self.shoes) == 1:
+            if predict.predict_model(self.top, self.bottom, self.shoes) == 1:
                 self.check = 1
                 self.images_indexes["top"] = self.top
                 self.images_indexes["bottom"] = self.bottom

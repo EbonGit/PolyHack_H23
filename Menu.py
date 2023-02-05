@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 import sys
 import Training
 import morning
+import predict
 
 
 class MenuWindow(QMainWindow):
@@ -43,6 +44,7 @@ class MenuWindow(QMainWindow):
         self.verticalLayout.addWidget(self.get_fit_button)
         self.verticalLayout.addWidget(self.train_button)
         self.verticalLayout.addWidget(self.exit_button)
+
 
 
     def show_training_window(self):

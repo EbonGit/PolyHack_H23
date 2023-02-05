@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
+import predict
 
 import random
 
@@ -81,6 +81,10 @@ def main():
         train_labels,
         validation_split=0.2,
         verbose=1, epochs=100)
+    save_format = 'tf'
+    model.save('model')
 
-    model.save('model.h5')
+    predict.load_model()
+
+
 

@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+
 import random
 
 np.set_printoptions(precision=3, suppress=True)
@@ -10,6 +11,12 @@ import tensorflow as tf
 
 from tensorflow import keras
 from tensorflow.keras import layers
+
+
+model = keras.models.load_model('model')
+
+def load_model():
+    model = keras.models.load_model('model')
 
 def binaries_concat(top, bottom, shoes):
     i1 = str(hex(top)).split("x")[1] + str(hex(bottom)).split("x")[1] + str(hex(shoes)).split("x")[1]
@@ -28,8 +35,9 @@ def result_analyse(result):
     return round(a)
 
 def predict_model(top, bottom, shoes):
-    model = keras.models.load_model('model.h5')
+
 
     top_, bottom_, shoes_ = binaries_concat(top, bottom, shoes)
+
 
     return result_analyse(model.predict([top_,bottom_,shoes_]))
