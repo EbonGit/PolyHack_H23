@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
-from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5.QtGui import QPixmap, QMovie, QIcon
 from PyQt5 import QtCore
 
 import pandas as pd
@@ -55,6 +55,9 @@ class TrainingWindow(QWidget):
         # MainWindow.setObjectName("MainWindow")
         # MainWindow.resize(414, 736)
         # MainWindow.setWindowTitle("Training")
+
+        self.setWindowIcon(QIcon('image/logo.png'))
+        self.setWindowTitle("Dress me")
 
         # setup central widget
         self.setObjectName("centralwidget")
@@ -144,6 +147,10 @@ class TrainingWindow(QWidget):
 class loadingWindow(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.setWindowTitle("Dress me")
+        self.setWindowIcon(QIcon('image/logo.png'))
+
         self.setStyleSheet("background-color : black;")
         self.gif_image_label = QLabel(self)
 
