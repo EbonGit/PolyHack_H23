@@ -12,7 +12,6 @@ class Ui_MainWindow(object):
     def __init__(self):
 
         self.data = pd.read_csv("out.csv")
-        print(self.data.head())
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
