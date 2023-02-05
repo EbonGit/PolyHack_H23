@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBo
 from PyQt5.QtGui import QPixmap
 import sys
 import Training
+import morning
 
 
 class MenuWindow(QMainWindow):
@@ -17,6 +18,7 @@ class MenuWindow(QMainWindow):
         self.train_button = QPushButton("Train")
         self.train_button.clicked.connect(self.show_training_window)
         self.get_fit_button = QPushButton("Morning")
+        self.get_fit_button.clicked.connect(self.show_morning_window)
         self.exit_button = QPushButton("Exit")
 
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -36,6 +38,10 @@ class MenuWindow(QMainWindow):
         self.training_window.setupUi()
         self.training_window.show()
 
+    def show_morning_window(self, checked):
+        self.morning_window = morning.MorningWindow()
+        self.morning_window.setupUi()
+        self.morning_window.show()
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = MenuWindow()
