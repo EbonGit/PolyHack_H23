@@ -1,12 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5 import QtCore
 
 import pandas as pd
 import generate_data
 import random
 import model_keras
-import Menu
+import time
 
 IMAGE_SIZE = 170
 
@@ -30,15 +31,25 @@ class TrainingWindow(QWidget):
         self.yes_button = QPushButton(self)
         self.done_button = QPushButton(self)
 
-        self.index = -1
+        self.index = 63
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
         self.image_shoes_index = self.images_indexes["shoes"]
 
+        self.loadingWindow = loadingWindow()
+        print('on est ouvert')
     def call_model(self):
+        self.loadingWindow.show()
+        QtCore.QCoreApplication.processEvents()
+        self.k()
+
+    def k(self):
         model_keras.main()
 
+    def closeWindow(self):
+        self.loadingWindow.closewindow()
+        super().close()
 
     def setupUi(self):
         # MainWindow.setObjectName("MainWindow")
@@ -64,8 +75,10 @@ class TrainingWindow(QWidget):
         self.yes_button.clicked.connect(lambda: self.feedback(True))
         self.yes_button.setText("Yeet")
         #self.close_button.clicked.connect(self.save)
+
         self.done_button.clicked.connect(self.call_model)
-        self.done_button.clicked.connect(self.close)
+
+        self.done_button.clicked.connect(self.closeWindow)
         self.done_button.setText("Done")
 
         # add to layouts
@@ -128,6 +141,23 @@ class TrainingWindow(QWidget):
         self.data.to_csv('out.csv', index=False)
 
 
+class loadingWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setStyleSheet("background-color : black;")
+        self.gif_image_label = QLabel(self)
+
+        # set qmovie as label
+        self.movie = QMovie("image/loading_resize.gif")
+        self.gif_image_label.setMovie(self.movie)
+
+        self.movie.start()
+        self.gif_image_label.move(75, 75)
+
+        self.resize(200, 200)
+
+    def closewindow(self):
+        self.close()
 
 if __name__ == "__main__":
     pass
