@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QMovie
 import sys
 import Training
 
@@ -17,7 +17,11 @@ class MenuWindow(QMainWindow):
         self.train_button = QPushButton("Train")
         self.train_button.clicked.connect(self.show_training_window)
         self.get_fit_button = QPushButton("Morning")
+        self.get_fit_button.clicked.connect(self.show_morning_window)
         self.exit_button = QPushButton("Exit")
+        self.exit_button.clicked.connect(self.exit)
+
+
 
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum,
@@ -25,16 +29,26 @@ class MenuWindow(QMainWindow):
 
         self.setCentralWidget(self.centralwidget)
 
+        # self.verticalLayout.addWidget(self.gif_image_label)
         self.verticalLayout.addItem(self.verticalSpacer)
         self.verticalLayout.addWidget(self.get_fit_button)
         self.verticalLayout.addWidget(self.train_button)
         self.verticalLayout.addWidget(self.exit_button)
 
 
-    def show_training_window(self, checked):
+    def show_training_window(self):
         self.training_window = Training.TrainingWindow()
         self.training_window.setupUi()
         self.training_window.show()
+
+    def show_morning_window(self):
+        print("Nothing there yet...")
+
+    def exit(self):
+        sys.exit()
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
