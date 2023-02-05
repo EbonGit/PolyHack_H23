@@ -8,6 +8,7 @@ import random
 
 IMAGE_SIZE = 170
 
+
 class TrainingWindow(QWidget):
 
     def __init__(self):
@@ -27,7 +28,7 @@ class TrainingWindow(QWidget):
         self.yes_button = QPushButton(self)
         self.close_button = QPushButton(self)
 
-        self.index = 55
+        self.index = -1
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
