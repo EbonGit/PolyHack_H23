@@ -29,5 +29,9 @@ def init():
     # df = df.sample(frac=1).reset_index(drop=True)
     # df.to_csv("out.csv", index=False)
 
+def reset():
+    df = pd.read_csv('Prefab_2.csv')
+    df.to_csv('out.csv', index=False)
+
 if __name__ == "__main__":
     init()

@@ -4,12 +4,14 @@ from PyQt5.QtCore import Qt
 import sys
 import Training
 import morning
+import generate_data
 
 
 class MenuWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        Training.STARTING = 63
 
         self.resize(414, 736)
 
@@ -21,6 +23,8 @@ class MenuWindow(QMainWindow):
         self.train_button.clicked.connect(self.show_training_window)
         self.get_fit_button = QPushButton("Morning")
         self.get_fit_button.clicked.connect(self.show_morning_window)
+        self.reset_button = QPushButton("Reset")
+        self.reset_button.clicked.connect(self.reset)
         self.exit_button = QPushButton("Exit")
         self.exit_button.clicked.connect(self.exit)
         self.back_label = QLabel(self)
@@ -42,6 +46,7 @@ class MenuWindow(QMainWindow):
         self.verticalLayout.addWidget(self.back_label)
         self.verticalLayout.addWidget(self.get_fit_button)
         self.verticalLayout.addWidget(self.train_button)
+        self.verticalLayout.addWidget(self.reset_button)
         self.verticalLayout.addWidget(self.exit_button)
 
 
@@ -59,6 +64,9 @@ class MenuWindow(QMainWindow):
     def exit(self):
         sys.exit()
 
+    def reset(self):
+        generate_data.reset()
+        Training.STARTING = 27
 
 
 
