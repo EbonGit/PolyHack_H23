@@ -14,7 +14,7 @@ IMAGE_SIZE = 170
 class TrainingWindow(QWidget):
 
     def __init__(self):
-        #generate_data.init()
+        generate_data.init()
         super().__init__()
         self.data = pd.read_csv("out.csv")
 
@@ -30,7 +30,7 @@ class TrainingWindow(QWidget):
         self.yes_button = QPushButton(self)
         self.done_button = QPushButton(self)
 
-        self.index = -1
+        self.index = 63
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]

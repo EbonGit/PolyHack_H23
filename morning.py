@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayo
 from PyQt5.QtGui import QPixmap
 
 import pandas as pd
-import generate_data
 import random
 import predict
 
