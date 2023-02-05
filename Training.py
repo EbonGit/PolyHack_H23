@@ -1,10 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMovie, QIcon
+from PyQt5 import QtCore
 
 import pandas as pd
 import generate_data
 import random
+import model_keras
+import time
 
 IMAGE_SIZE = 170
 
@@ -26,18 +29,35 @@ class TrainingWindow(QWidget):
 
         self.nope_button = QPushButton(self)
         self.yes_button = QPushButton(self)
-        self.close_button = QPushButton(self)
+        self.done_button = QPushButton(self)
 
-        self.index = -1
+        self.index = 63
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
         self.image_shoes_index = self.images_indexes["shoes"]
 
+        self.loadingWindow = loadingWindow()
+        print('on est ouvert')
+    def call_model(self):
+        self.loadingWindow.show()
+        QtCore.QCoreApplication.processEvents()
+        self.k()
+
+    def k(self):
+        model_keras.main()
+
+    def closeWindow(self):
+        self.loadingWindow.closewindow()
+        super().close()
+
     def setupUi(self):
         # MainWindow.setObjectName("MainWindow")
         # MainWindow.resize(414, 736)
         # MainWindow.setWindowTitle("Training")
+
+        self.setWindowIcon(QIcon('image/logo.png'))
+        self.setWindowTitle("Dress me")
 
         # setup central widget
         self.setObjectName("centralwidget")
@@ -58,13 +78,17 @@ class TrainingWindow(QWidget):
         self.yes_button.clicked.connect(lambda: self.feedback(True))
         self.yes_button.setText("Yeet")
         #self.close_button.clicked.connect(self.save)
-        self.close_button.setText("Done")
+
+        self.done_button.clicked.connect(self.call_model)
+
+        self.done_button.clicked.connect(self.closeWindow)
+        self.done_button.setText("Done")
 
         # add to layouts
         self.verticalLayout.addWidget(self.label_image_top)
         self.verticalLayout.addWidget(self.label_image_bottom)
         self.verticalLayout.addWidget(self.label_image_shoes)
-        self.verticalLayout.addWidget(self.close_button)
+        self.verticalLayout.addWidget(self.done_button)
         self.horizontalLayout.addWidget(self.nope_button)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.horizontalLayout.addWidget(self.yes_button)
@@ -120,6 +144,27 @@ class TrainingWindow(QWidget):
         self.data.to_csv('out.csv', index=False)
 
 
+class loadingWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Dress me")
+        self.setWindowIcon(QIcon('image/logo.png'))
+
+        self.setStyleSheet("background-color : black;")
+        self.gif_image_label = QLabel(self)
+
+        # set qmovie as label
+        self.movie = QMovie("image/loading_resize.gif")
+        self.gif_image_label.setMovie(self.movie)
+
+        self.movie.start()
+        self.gif_image_label.move(75, 75)
+
+        self.resize(200, 200)
+
+    def closewindow(self):
+        self.close()
 
 if __name__ == "__main__":
     pass
