@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayo
 from PyQt5.QtGui import QPixmap
 
 import pandas as pd
+import generate_data
 import random
 
 IMAGE_SIZE = 170
@@ -10,6 +11,7 @@ IMAGE_SIZE = 170
 class TrainingWindow(QWidget):
 
     def __init__(self):
+        generate_data.init()
         super().__init__()
         self.data = pd.read_csv("out.csv")
 
@@ -25,7 +27,7 @@ class TrainingWindow(QWidget):
         self.yes_button = QPushButton(self)
         self.close_button = QPushButton(self)
 
-        self.index = random.randint(0, 99)
+        self.index = 55
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
@@ -54,7 +56,7 @@ class TrainingWindow(QWidget):
         self.nope_button.setText("Nope")
         self.yes_button.clicked.connect(lambda: self.feedback(True))
         self.yes_button.setText("Yeet")
-        self.close_button.clicked.connect(self.save)
+        #self.close_button.clicked.connect(self.save)
         self.close_button.setText("Done")
 
         # add to layouts
@@ -78,7 +80,7 @@ class TrainingWindow(QWidget):
             #       f"\n top_index : {self.image_top_index},"
             #       f"\n bottom_index : {self.image_bottom_index},"
             #       f"\n top_index : {self.image_shoes_index} ")
-
+        self.save()
         self.getImages()
 
     def loadImages(self, top, bottom, shoes):
@@ -98,11 +100,14 @@ class TrainingWindow(QWidget):
             self.pixmap3.scaled(IMAGE_SIZE, IMAGE_SIZE, Qt.KeepAspectRatio, Qt.FastTransformation))
 
     def getImages(self):
-
-        masked_df = self.data[self.data['result'] == -1]
-        end = masked_df['result'].count()
-
-        self.index = random.randint(0, end)
+        if(self.index < 63):
+            self.index += 1
+            print(self.index)
+        else:
+            new_row = pd.DataFrame({'top': [random.randint(1, 4)], 'bottom': [random.randint(1,4)], 'shoes': [random.randint(1,4)], 'result': [-1]})
+            self.data = pd.concat([self.data, new_row])
+            print(self.data.tail())
+            self.index += 1
 
         self.images_indexes = self.data.iloc[self.index]
         self.image_top_index = self.images_indexes["top"]
