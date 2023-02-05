@@ -1,29 +1,29 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
+from PyQt5.QtGui import QPixmap
 
 import pandas as pd
 import random
 
 IMAGE_SIZE = 170
 
-class Ui_MainWindow(object):
+class TrainingWindow(QWidget):
 
     def __init__(self):
-
+        super().__init__()
         self.data = pd.read_csv("out.csv")
 
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        #self.centralwidget = QWidget(w)
+        self.horizontalLayout = QHBoxLayout(self)
         self.verticalLayout = QVBoxLayout()
 
-        self.label_image_top = QtWidgets.QLabel(self.centralwidget)
-        self.label_image_bottom = QtWidgets.QLabel(self.centralwidget)
-        self.label_image_shoes = QtWidgets.QLabel(self.centralwidget)
+        self.label_image_top = QLabel(self)
+        self.label_image_bottom = QLabel(self)
+        self.label_image_shoes = QLabel(self)
 
-        self.nope_button = QtWidgets.QPushButton(self.centralwidget)
-        self.yes_button = QtWidgets.QPushButton(self.centralwidget)
-        self.close_button = QtWidgets.QPushButton(self.centralwidget)
+        self.nope_button = QPushButton(self)
+        self.yes_button = QPushButton(self)
+        self.close_button = QPushButton(self)
 
         self.index = random.randint(0, 99)
         self.getImages()
@@ -31,14 +31,14 @@ class Ui_MainWindow(object):
         self.image_bottom_index = self.images_indexes["bottom"]
         self.image_shoes_index = self.images_indexes["shoes"]
 
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(414, 736)
-        MainWindow.setWindowTitle("Training")
+    def setupUi(self):
+        # MainWindow.setObjectName("MainWindow")
+        # MainWindow.resize(414, 736)
+        # MainWindow.setWindowTitle("Training")
 
         # setup central widget
-        self.centralwidget.setObjectName("centralwidget")
-        self.centralwidget.resize(414, 736)
+        self.setObjectName("centralwidget")
+        self.resize(414, 736)
 
         # setup layouts
         self.horizontalLayout.setObjectName("horizontalLayoutWidget")
@@ -65,8 +65,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.nope_button)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.horizontalLayout.addWidget(self.yes_button)
-
-
     def feedback(self, result):
         if result:
             self.data["result"].iloc[self.index] = 1
@@ -81,9 +79,7 @@ class Ui_MainWindow(object):
             #       f"\n bottom_index : {self.image_bottom_index},"
             #       f"\n top_index : {self.image_shoes_index} ")
 
-
         self.getImages()
-
 
     def loadImages(self, top, bottom, shoes):
 
@@ -91,10 +87,9 @@ class Ui_MainWindow(object):
         bottom_path = f"image/bottom_{bottom}.png"
         shoes_path = f"image/shoes_{shoes}.png"
 
-
-        self.pixmap1 = QtGui.QPixmap(top_path)
-        self.pixmap2 = QtGui.QPixmap(bottom_path)
-        self.pixmap3 = QtGui.QPixmap(shoes_path)
+        self.pixmap1 = QPixmap(top_path)
+        self.pixmap2 = QPixmap(bottom_path)
+        self.pixmap3 = QPixmap(shoes_path)
         self.label_image_top.setPixmap(
             self.pixmap1.scaled(IMAGE_SIZE, IMAGE_SIZE, Qt.KeepAspectRatio, Qt.FastTransformation))
         self.label_image_bottom.setPixmap(
@@ -103,7 +98,6 @@ class Ui_MainWindow(object):
             self.pixmap3.scaled(IMAGE_SIZE, IMAGE_SIZE, Qt.KeepAspectRatio, Qt.FastTransformation))
 
     def getImages(self):
-
 
         masked_df = self.data[self.data['result'] == -1]
         end = masked_df['result'].count()
@@ -119,11 +113,7 @@ class Ui_MainWindow(object):
     def save(self):
         self.data.to_csv('out.csv', index=False)
 
+
+
 if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    pass
