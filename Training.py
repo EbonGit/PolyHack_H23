@@ -87,9 +87,9 @@ class Ui_MainWindow(object):
 
     def loadImages(self, top, bottom, shoes):
 
-        top_path = f"images/t_{top}.jpg"
-        bottom_path = f"images/short_{bottom}.jpg"
-        shoes_path = f"images/shoes_{shoes}.jpg"
+        top_path = f"image/top_{top}.png"
+        bottom_path = f"image/bottom_{bottom}.png"
+        shoes_path = f"image/shoes_{shoes}.png"
 
 
         self.pixmap1 = QtGui.QPixmap(top_path)
