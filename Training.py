@@ -5,6 +5,8 @@ from PyQt5.QtGui import QPixmap
 import pandas as pd
 import generate_data
 import random
+import model_keras
+import Menu
 
 IMAGE_SIZE = 170
 
@@ -26,13 +28,17 @@ class TrainingWindow(QWidget):
 
         self.nope_button = QPushButton(self)
         self.yes_button = QPushButton(self)
-        self.close_button = QPushButton(self)
+        self.done_button = QPushButton(self)
 
         self.index = -1
         self.getImages()
         self.image_top_index = self.images_indexes["top"]
         self.image_bottom_index = self.images_indexes["bottom"]
         self.image_shoes_index = self.images_indexes["shoes"]
+
+    def call_model(self):
+        model_keras.main()
+
 
     def setupUi(self):
         # MainWindow.setObjectName("MainWindow")
@@ -58,13 +64,15 @@ class TrainingWindow(QWidget):
         self.yes_button.clicked.connect(lambda: self.feedback(True))
         self.yes_button.setText("Yeet")
         #self.close_button.clicked.connect(self.save)
-        self.close_button.setText("Done")
+        self.done_button.clicked.connect(self.call_model)
+        self.done_button.clicked.connect(self.close)
+        self.done_button.setText("Done")
 
         # add to layouts
         self.verticalLayout.addWidget(self.label_image_top)
         self.verticalLayout.addWidget(self.label_image_bottom)
         self.verticalLayout.addWidget(self.label_image_shoes)
-        self.verticalLayout.addWidget(self.close_button)
+        self.verticalLayout.addWidget(self.done_button)
         self.horizontalLayout.addWidget(self.nope_button)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.horizontalLayout.addWidget(self.yes_button)
